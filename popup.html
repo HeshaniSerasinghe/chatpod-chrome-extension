@@ -1,0 +1,84 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ChatPod</title>
+    <style>
+        :root { --primary-bg: #282c34; --secondary-bg: #3c4049; --accent-color: #00a98f; --text-color: #e6e6e6; --border-radius: 8px; --separator-color: #5a5f6b; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; width: 320px; padding: 20px; background-color: var(--primary-bg); color: var(--text-color); text-align: center; margin: 0; transition: width 0.3s ease; position: relative; } /* Added position: relative */
+        body.expanded { width: 500px; }
+        .header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .logo { width: 40px; height: 40px; }
+        h2 { margin: 0; font-size: 22px; }
+        p { font-size: 14px; opacity: 0.8; margin-bottom: 20px; min-height: 30px; }
+        button { width: 100%; padding: 12px; border: none; border-radius: var(--border-radius); background-image: linear-gradient(45deg, #00a98f, #00c3a5); color: white; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
+        button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 169, 143, 0.4); }
+        button:disabled { background-image: linear-gradient(45deg, #5a5f6b, #7e8490); cursor: not-allowed; opacity: 0.7; }
+        .spinner { width: 18px; height: 18px; border: 2px solid rgba(255, 255, 255, 0.3); border-top-color: #ffffff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #selectionView { display: none; }
+        #checklist { max-height: 250px; overflow-y: auto; text-align: left; background-color: var(--secondary-bg); padding: 10px; border-radius: var(--border-radius); margin-bottom: 10px; transition: max-height 0.3s ease; }
+        body.expanded #checklist { max-height: 400px; }
+        .check-item { display: flex; align-items: flex-start; padding: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--separator-color); border-radius: 4px; cursor: pointer; transition: background-color 0.2s ease; }
+        .check-item:hover { background-color: rgba(255, 255, 255, 0.05); }
+        .check-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .check-item input { margin-right: 10px; margin-top: 4px; flex-shrink: 0; pointer-events: none; }
+        .check-item label { font-size: 12px; white-space: pre-wrap; word-break: break-word; flex-grow: 1; }
+        .check-item .role { font-weight: bold; color: var(--accent-color); }
+        .controls { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+        .go-to-icon { flex-shrink: 0; margin-left: 10px; cursor: pointer; font-size: 16px; opacity: 0.6; transition: opacity 0.2s; padding: 0 5px; }
+        .go-to-icon:hover { opacity: 1; }
+        .action-buttons { display: flex; gap: 10px; }
+        .secondary-btn { background-image: linear-gradient(45deg, #5a5f6b, #7e8490); }
+        #resizeBtn { position: absolute; bottom: 10px; right: 10px; width: auto; padding: 5px 8px; font-size: 14px; margin: 0; background-image: none; background-color: var(--secondary-bg); z-index: 10; }
+        #checklist::-webkit-scrollbar { width: 8px; }
+        #checklist::-webkit-scrollbar-track { background: var(--secondary-bg); border-radius: 10px; }
+        #checklist::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 10px; }
+        #checklist::-webkit-scrollbar-thumb:hover { background: #00c3a5; }
+        
+    </style>
+</head>
+<body>
+    <div id="mainView">
+        <div class="header">
+            <img src="icons/icon1024.png" alt="ChatPod Logo" class="logo">
+            <h2>ChatPod</h2>
+        </div>
+        <p id="statusText">Select parts of your chat to create a PDF or download as a document.</p>
+        <button id="startBtn">
+            <span id="startBtnText">Start Selection</span>
+        </button>
+    </div>
+
+    <div id="selectionView">
+        <button id="resizeBtn" title="Toggle Size">↔</button>
+
+        <div class="controls">
+            <label><input type="checkbox" id="selectAll"> Select All</label>
+            <button id="backBtn" style="width: auto; padding: 5px 10px; font-size: 12px; margin:0;">Back</button>
+        </div>
+        <div id="checklist"></div>
+        <div class="action-buttons">
+            <button id="downloadDocBtn" class="secondary-btn">
+                <span id="downloadDocBtnText">Download .doc</span>
+            </button>
+            <button id="generateBtn">
+                <div class="spinner" id="spinner"></div>
+                <span id="btnText">Create PDF</span>
+            </button>
+        </div>
+        <p id="selectionStatus" style="min-height: 15px; margin-top: 10px;"></p>
+    </div>
+    
+    <script src="lib/jspdf.umd.min.js"></script>
+    <script src="lib/marked.min.js"></script> 
+    <script src="lib/dompurify.min.js"></script>
+    <script src="lib/html2canvas.min.js"></script>
+    <script src="lib/jspdf.plugin.autotable.min.js"></script>
+    <script src="popup.js"></script>
+    
+
+</body>
+</html>

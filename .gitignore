@@ -1,0 +1,8 @@
+# Ignore the file with our secret API key
+config.js
+
+# Ignore system files
+.DS_Store
+
+# Ignore IDE/editor folders
+.vscode/
