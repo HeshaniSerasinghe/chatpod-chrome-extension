@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // popup.js
 
-// --- ✨ FINAL VERSION of the PDF Generation Function ✨ ---
+// --- the PDF Generation Function  ---
 function generateFormattedPdf(markdownText) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: 'pt', format: 'a4' });
@@ -125,7 +125,6 @@ function generateFormattedPdf(markdownText) {
 
             case 'list':
                 token.items.forEach(item => {
-                    // ✨ THIS IS THE FIX: Skip empty list items ✨
                     if (!item.text.trim()) return;
 
                     const itemText = item.text.replace(/\*/g, ''); // Clean up text

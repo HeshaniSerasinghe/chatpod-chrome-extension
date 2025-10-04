@@ -6,9 +6,8 @@ function scrapeStructuredConversation() {
 
     messageElements.forEach((element, index) => {
         const role = element.getAttribute('data-message-author-role');
-        let messageHtml = ''; // We will now get the innerHTML
+        let messageHtml = ''; 
 
-        // Find the main content container for the message
         const contentContainer = element.querySelector('.markdown, .text-base, div.relative > div > div');
         
         if (contentContainer) {
@@ -22,9 +21,7 @@ function scrapeStructuredConversation() {
             conversation.push({
                 id: messageId,
                 role: role === 'user' ? 'User' : 'AI',
-                // --- CHANGED: We are now storing the HTML content ---
                 content: messageHtml,
-                // Also keep a plain text version for the checklist display
                 textContent: contentContainer.innerText.trim()
             });
         }
@@ -32,7 +29,6 @@ function scrapeStructuredConversation() {
     return conversation;
 }
 
-// --- (The rest of the file remains the same) ---
 
 function scrollToMessage(messageId) {
     const element = document.getElementById(messageId);
